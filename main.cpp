@@ -3,6 +3,13 @@
 
 
 using namespace std;
+unsigned char rotar_derecha(unsigned char valor, int n) {
+    return (valor >> n) | (valor << (8 - n));
+}
+
+unsigned char rotar_izquierda(unsigned char valor, int n) {
+    return (valor << n) | (valor >> (8 - n));
+}
 
 int main()
 {
@@ -14,43 +21,43 @@ int main()
 
 
     */
-    char* archivo ="salidaREL.txt";
-    ifstream archivo1 (archivo);
+    const char* archivo = "salidaREL.txt"; // nombre del archivo
+    ifstream archivo1(archivo, ios::binary); // abrir desde el inicio
+
     if (!archivo1.is_open()) {
         cerr << "No se pudo abrir el archivo: " << archivo << endl;
         return 1;
     }
-    cout << "Leyendo y comprimiendo con RLE..." << endl;
 
-    char c;
-    char actual = '\0';
-    int conteo = 0;
+    int byte;
+    while ((byte = archivo1.get()) != EOF) {
+        unsigned char c = static_cast<unsigned char>(byte);
+        // Primera rotación y XOR
+        unsigned char rotado = rotar_derecha(c, 2);
+        rotado ^= 0x5A;
 
-    while (archivo1.get(c)) {
-        if (conteo == 0) {
-            // Primer carácter
-            actual = c;
-            conteo = 1;
-        } else if (c == actual) {
-            // Mismo carácter, aumentar conteo
-            conteo++;
-        } else {
-            // Carácter distinto, imprimir resultado anterior
-            cout << conteo << actual;
-            // reiniciar para el nuevo carácter
-            actual = c;
-            conteo = 1;
-        }
+        // Segunda rotación y XOR sobre el resultado anterior
+        unsigned char rotado2 = rotar_derecha(rotado,2);
+        rotado2 ^= 0x5A;
+        //cout<<rotado2;
+
+        // tercera rotación y XOR sobre el resultado anterior
+       unsigned char rotado3 = rotar_izquierda(rotado2, 2);
+        rotado3 ^= 0x5A;
+        cout<<rotado3;
     }
-
-    // al salir del while imprimir el último grupo
-    if (conteo > 0) {
-        cout << conteo << actual;
-    }
-
-    cout << endl;
 
     archivo1.close();
+
+
+
+
+
+
+
+
+
+
 
 
 
