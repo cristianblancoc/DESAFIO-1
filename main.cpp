@@ -21,7 +21,7 @@ int main()
 
 
     */
-    const char* archivo = "salidaREL.txt"; // nombre del archivo
+   /* const char* archivo = "salidaREL.txt"; // nombre del archivo
     ifstream archivo1(archivo, ios::binary); // abrir desde el inicio
 
     if (!archivo1.is_open()) {
@@ -29,7 +29,8 @@ int main()
         return 1;
     }
 
-    int byte;
+    int byte=0;
+    int count = 0;
     while ((byte = archivo1.get()) != EOF) {
         unsigned char c = static_cast<unsigned char>(byte);
         // Primera rotación y XOR
@@ -44,23 +45,40 @@ int main()
         // tercera rotación y XOR sobre el resultado anterior
        unsigned char rotado3 = rotar_izquierda(rotado2, 2);
         rotado3 ^= 0x5A;
-        cout<<rotado3;
+        cout<<rotado3;*/
+        const char* comprimido = "11W1B12W3B14W"; // tu texto RLE
+        int count = 0;
+
+        for (int i = 0; comprimido[i] != '\0'; ++i) {
+            unsigned char c = comprimido[i];
+
+        if (c >= '0' && c <= '9') {
+            // acumular dígitos en count
+            count = count * 10 + (c - '0');
+        } else {
+            // caracter a repetir
+            if (count == 0) count = 1; // por si no había número antes
+            for (int i = 0; i < count; ++i) {
+                cout<<c;
+                //cout << static_cast<char>(rotado3);
+            }
+            count = 0;
+
+        }
+    //archivo1.close();
+
+
+
+
+
+
+
+
+
+
+
+
     }
-
-    archivo1.close();
-
-
-
-
-
-
-
-
-
-
-
-
-
 
     return 0;
 }
