@@ -1,4 +1,4 @@
-
+/*
 #include <iostream>
 #include <fstream>
 
@@ -133,7 +133,36 @@ int main() {
 
     return 0;
 }
+*/
+#include <iostream>
+#include <fstream>
 
+using namespace std;
+
+int main() {
+    ifstream archivo("lz78.txt");
+    if (!archivo.is_open()) {
+        cout << "No se pudo abrir el archivo.\n";
+        return 1;
+    }
+
+    char indices[100];
+    char letras[100];
+    int total = 0;
+
+    // Leer y extraer pares (índice, letra)
+    while (true) {
+        char c = archivo.get();
+        if (archivo.eof()) break;
+
+        if (c == '(') {
+            // Leer índice (número)
+            int num = 0;
+            c = archivo.get();
+            while (c >= '0' && c <= '9') {
+                num = num * 10 + (c - '0');
+                c = archivo.get();
+            }
 
 
   /*   ofstream archivotex("salidaREL.txt");
@@ -144,7 +173,6 @@ int main() {
 
 
 
-    namespace std; unsigned char rotar_derecha(unsigned char valor, int n) { return (valor >> n) | (valor << (8 - n)); } unsigned char rotar_izquierda(unsigned char valor, int n) { return (valor << n) | (valor >> (8 - n)); } //const char dicionario (char* =new valor, char c); int main() { const char* archivo = "salidaREL.txt"; // nombre fijo del archivo ifstream archivo1(archivo, ios::binary); if (!archivo1.is_open()) { cerr << "No se pudo abrir el archivo: " << archivo << endl; return 1; } // === Paso 1: Rotación + XOR === const int MAX = 10000; unsigned char almacenamiento[MAX]; int tam = 0; int byte = 0; while ((byte = archivo1.get()) != EOF && tam < MAX) { unsigned char c = (unsigned char)byte; // 1. XOR con clave 0x40 unsigned char xor_c = c ^ 0x5a ; unsigned char rot_izq = rotar_derecha(xor_c, 3); // 3. (Opcional) Rotación a la derecha 3 bits // unsigned char rot_der = rotar_derecha(rot_izq, 3); // Mostrar el byte transformado (como número) cout << rot_izq ; // Almacenar el resultado almacenamiento[tam++] = rot_izq; } archivo1.close(); // === Elegir tipo de descompresión === int tipoCompresion; cout << "\nTipo de compresion (1 = RLE, 2 = LZ78): "; cin >> tipoCompresion; if (tipoCompresion == 1) { // ===== RLE ===== int count = 0; for (int i = 0; i < tam; ++i) { unsigned char c = almacenamiento[i]; if (c >= '0' && c <= '9') { count = count * 10 + (c - '0'); } else { if (count == 0) count = 1; for (int j = 0; j < count; ++j) { cout << c; } count = 0; } } cout << endl; } else if (tipoCompresion == 2) { // ===== LZ78 ===== char dicc[256][256]; int largos[256]; int numEntradas = 0; int i = 0; while (i + 1 < tam) { int byte1 = almacenamiento[i]; int byte2 = almacenamiento[i + 1]; i += 2; int idx = byte1; char c = (char)byte2; if (idx > numEntradas) { cerr << "Error: índice fuera de rango: " << idx << endl; break; } int longitud = 0; if (idx > 0) { int pos = idx - 1; longitud = largos[pos]; for (int i = 0; i < longitud; i++) { dicc[numEntradas][i] = dicc[pos][i]; } } dicc[numEntradas][longitud] = c; longitud++; largos[numEntradas] = longitud; numEntradas++; for (int i = 0; i < longitud; i++) { cout << dicc[numEntradas - 1][i]; } } cout << endl; } else { cout << "Tipo de compresion no valido." << endl; }
 
    */
 
