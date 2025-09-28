@@ -163,7 +163,22 @@ int main() {
                 num = num * 10 + (c - '0');
                 c = archivo.get();
             }
+            // Saltar coma y espacios
+            while (c == ',' || c == ' ') c = archivo.get();
 
+            // Leer letra
+            char letra = c;
+
+            // Avanzar hasta encontrar ')'
+            while (c != ')' && !archivo.eof()) {
+                c = archivo.get();
+            }
+
+            indices[total] = (char)num;
+            letras[total] = letra;
+            total++;
+        }
+    }
 
   /*   ofstream archivotex("salidaREL.txt");
     if(!archivotex){
