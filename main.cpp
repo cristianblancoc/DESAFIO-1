@@ -1,10 +1,10 @@
-/*
+
 #include <iostream>
 #include <fstream>
 
 using namespace std;
 
-// Rota los bits de un byte a la derecha
+/*// Rota los bits de un byte a la derecha
 unsigned char rotar_derecha(unsigned char valor, int cantidad) {
     return (valor >> cantidad) | (valor << (8 - cantidad));
 }
@@ -134,10 +134,7 @@ int main() {
     return 0;
 }
 */
-#include <iostream>
-#include <fstream>
 
-using namespace std;
 
 int main() {
     ifstream archivo("lz78.txt");
@@ -180,6 +177,50 @@ int main() {
         }
     }
 
+
+    archivo.close();
+
+    // Diccionario simple
+    char diccionario[100][100];
+    int tamanos[100];
+    int totalEntradas = 0;
+
+    char mensaje[10000];
+    int largoMensaje = 0;
+
+    for (int k = 0; k < total; k++) {
+        int ind = (int)indices[k];
+        char l = letras[k];
+
+        int tam = 0;
+        if (ind > 0) {
+            int pos = ind - 1;
+            tam = tamanos[pos];
+            for (int j = 0; j < tam; j++) {
+                diccionario[totalEntradas][j] = diccionario[pos][j];
+            }
+        }
+
+
+        diccionario[totalEntradas][tam] = l;
+        tam++;
+        tamanos[totalEntradas] = tam;
+
+        for (int j = 0; j < tam; j++) {
+            mensaje[largoMensaje++] = diccionario[totalEntradas][j];
+        }
+
+        totalEntradas++;
+    }
+
+    cout << "Texto descomprimido:\n";
+    for (int i = 0; i < largoMensaje; i++) {
+        cout << mensaje[i];
+    }
+    cout << "\n";
+
+    return 0;
+}
   /*   ofstream archivotex("salidaREL.txt");
     if(!archivotex){
          cerr <<"no se pudo abrir el archivo "<<endl;
