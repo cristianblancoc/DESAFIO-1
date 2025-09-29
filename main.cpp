@@ -135,7 +135,6 @@ int main() {
 }
 */
 
-
 int main() {
     ifstream archivo("lz78.txt");
     if (!archivo.is_open()) {
@@ -147,26 +146,24 @@ int main() {
     char letras[100];
     int total = 0;
 
-    // Leer y extraer pares (índice, letra)
+    // Leer pares (índice, letra)
     while (true) {
         char c = archivo.get();
         if (archivo.eof()) break;
 
         if (c == '(') {
-            // Leer índice (número)
             int num = 0;
             c = archivo.get();
+
             while (c >= '0' && c <= '9') {
                 num = num * 10 + (c - '0');
                 c = archivo.get();
             }
-            // Saltar coma y espacios
+
             while (c == ',' || c == ' ') c = archivo.get();
 
-            // Leer letra
             char letra = c;
 
-            // Avanzar hasta encontrar ')'
             while (c != ')' && !archivo.eof()) {
                 c = archivo.get();
             }
@@ -177,10 +174,9 @@ int main() {
         }
     }
 
-
     archivo.close();
 
-    // Diccionario simple
+    // Diccionario para reconstrucción
     char diccionario[100][100];
     int tamanos[100];
     int totalEntradas = 0;
@@ -201,7 +197,6 @@ int main() {
             }
         }
 
-
         diccionario[totalEntradas][tam] = l;
         tam++;
         tamanos[totalEntradas] = tam;
@@ -213,12 +208,27 @@ int main() {
         totalEntradas++;
     }
 
-    cout << "Texto descomprimido:\n";
+    cout << "\nTexto descomprimido:\n";
     for (int i = 0; i < largoMensaje; i++) {
         cout << mensaje[i];
     }
-    cout << "\n";
 
+    // Aplicar organización con la palabra clave
+    const char* clave = "rrenosdes";
+    int posicion = buscar_palabra(mensaje, largoMensaje, clave, 9);
+
+    if (posicion != -1) {
+        rotar_texto(mensaje, largoMensaje, posicion);
+
+        cout << "\n\nTexto organizado:\n";
+        for (int i = 0; i < largoMensaje; i++) {
+            cout << mensaje[i];
+        }
+    } else {
+        cout << "\n\nNo se encontró la clave. No se reorganizó el texto.\n";
+    }
+
+    cout << "\n";
     return 0;
 }
   /*   ofstream archivotex("salidaREL.txt");
